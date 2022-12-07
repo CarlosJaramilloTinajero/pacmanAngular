@@ -1,0 +1,14 @@
+<div *ngFor="let objeto of objetos; let i = index;">
+    <div [ngClass]="{'hidden': objeto.id == 10}" class="objeto" [ngStyle]="{'top': objeto.py+'px', 'left': objeto.px+'px',
+    'width': objeto.tx+'px', 'height': objeto.ty+'px'}">
+        <div class="sombraAdentro"></div>
+    </div>
+
+    <div *ngFor="let punto of puntos; let i = index;">
+        <div class="punto" [ngStyle]="{'top': punto.py+'px', 'left': punto.px+'px',
+    'width': punto.tx+'px', 'height': punto.ty+'px', 'border-radius': ((punto.tx / 2) + 5) + 'px'}">
+            <!-- <img class="imagen" src="assets/punto.png" alt=""> -->
+        </div>
+    </div>
+
+</div>

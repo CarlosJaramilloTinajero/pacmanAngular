@@ -1,0 +1,57 @@
+.objeto {
+    position: absolute;
+    /* background-color: white; */
+    border-radius: 5px;
+    border: 2px rgb(22, 60, 184, 0.9) solid;
+    -webkit-box-shadow: 0px 0px 12px 2px rgba(22, 60, 184, 0.8);
+    -moz-box-shadow: 0px 0px 12px 2px rgba(22, 60, 184, 0.8);
+    box-shadow: 0px 0px 12px 2px rgba(22, 60, 184, 0.8);
+}
+
+.sombraAdentro {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-box-shadow: inset 0px 0px 8px 0px rgba(22, 60, 184, 0.8);
+    -moz-box-shadow: inset 0px 0px 8px 0px rgba(22, 60, 184, 0.8);
+    box-shadow: inset 0px 0px 8px 0px rgba(22, 60, 184, 0.8);
+}
+
+.hidden {
+    opacity: 0;
+}
+
+.imagen {
+    width: 100%;
+    height: 100%;
+}
+
+.punto {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-left: 5px rgba(22, 60, 184, 0.8) solid;
+    border-right: 5px rgba(22, 60, 184, 0.8) solid;
+
+    border-top: 5px rgba(255, 255, 255) solid;
+    border-bottom: 5px rgba(255, 255, 255) solid;
+
+    -webkit-box-shadow: 0px 0px 5px 1px rgba(22, 60, 184, 0.8);
+    -moz-box-shadow: 0px 0px 5px 1px rgba(22, 60, 184, 0.8);
+    box-shadow: 0px 0px 5px 1px rgba(22, 60, 184, 0.8);
+    /* animation: puntoAnimacion 1.5s linear infinite; */
+    /* border-radius: ; */
+}
+
+@keyframes puntoAnimacion {
+    from {
+        /* scale: 1; */
+        transform: rotate(0deg);
+    }
+
+    to {
+        /* scale: 1.7; */
+        transform: rotate(360deg);
+    }
+}

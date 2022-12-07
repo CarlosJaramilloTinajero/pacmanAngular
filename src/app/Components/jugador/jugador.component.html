@@ -1,0 +1,10 @@
+<div class="jugador" [ngStyle]="{'left': px + 'px', 'top': py + 'px'}" id="jugador">
+    <img [src]="'assets/pacman/pacman_der_1.png'" class="imagenPacman"
+        [ngClass]="{'hidden': img != 1, 'show': img == 1}" [ngStyle]="{'rotate': ladoDeg + 'deg'}" alt="" id="pacman">
+
+    <img [src]="'assets/pacman/pacman_der_2.png'" class="imagenPacman"
+        [ngClass]="{'hidden': img != 2, 'show': img == 2}" [ngStyle]="{'rotate': ladoDeg + 'deg'}" alt="" id="pacman">
+
+    <img [src]="'assets/pacman/pacman_der_3.png'" class="imagenPacman"
+        [ngClass]="{'hidden': img != 3, 'show': img == 3}" [ngStyle]="{'rotate': ladoDeg + 'deg'}" alt="" id="pacman">
+</div>
