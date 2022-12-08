@@ -28,12 +28,12 @@
                 <h1 class="subTitulo">Teclas</h1>
                 <hr>
                 <div class="contenedor">
+                    <h4 class="tecla">Play <span class="igual">=</span> <span>W, A, S, D</span></h4>
+                    <h4 class="tecla">P <span class="igual">=</span> <span>Pause</span></h4>
                     <h4 class="tecla">W <span class="igual">=</span> <span>Arriba</span></h4>
                     <h4 class="tecla">A <span class="igual">=</span> <span>Izquierda</span></h4>
                     <h4 class="tecla">D <span class="igual">=</span> <span>Derecha</span></h4>
                     <h4 class="tecla">S <span class="igual">=</span> <span>Abajo</span></h4>
-                    <h4 class="tecla">P <span class="igual">=</span> <span>Pause</span></h4>
-                    <h4 class="tecla">Play <span class="igual">=</span> <span>W, A, S, D</span></h4>
                 </div>
             </div>
             <div class="col">
@@ -54,7 +54,8 @@
                     </div>
                     <div class="mb-3 inputDiv  d-flex justify-content-end">
                         <label for="" class="label-form">Dificultad:</label>
-                        <select name="dificultad" [(ngModel)]="dificultad" class="select-form selectA">
+                        <select name="dificultad" [(ngModel)]="dificultad" class="select-form selectA"
+                            (ngModelChange)="cambiarDificultad()">
                             <option value="Facil">Facil</option>
                             <option value="Normal">Normal</option>
                             <option value="Dificil">Dificil</option>
@@ -79,10 +80,9 @@
                     </p>
                 </div>
                 <div class="col">
-                    <p class="footer" style="margin-bottom: 5px;"><strong>FrameWork y libreria</strong></p>
+                    <p class="footer" style="margin-bottom: 5px;"><strong>FrameWork</strong></p>
                     <p class="footer">
                         Angular <br>
-                        BootStrap <br>
                     </p>
                 </div>
             </div>

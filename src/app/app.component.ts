@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
   velocidadFan: number = 2;
   imgFants: number[] = [];
   ladoFants: string[] = [];
+  busquedaDeJugador: number = 40;
   maxS: number[] = [];
   minS: number[] = [];
 
@@ -49,6 +50,7 @@ export class AppComponent implements OnInit {
   quieto: boolean = true;
   muerto: boolean = false;
   choqueFantasma: boolean = false;
+  delayChoqueFantasma: number = 2500;
   izqJugador: Objeto = new Objeto();
   derJugador: Objeto = new Objeto();
   arrJugador: Objeto = new Objeto();
@@ -256,7 +258,7 @@ export class AppComponent implements OnInit {
   dibujarJugador(delayDibujar: number) {
     var cont = 0;
     var idInterval = setInterval(() => {
-      if (this.quieto && this.muerto) {
+      if (this.quieto || this.muerto) {
         this.img = 2;
       } else {
         if (cont == 5) {
@@ -290,7 +292,7 @@ export class AppComponent implements OnInit {
           colision = this.colision(this.fantasmas[cont], false);
 
           // Mover el fantasma hacia el jugador
-          if (this.getRandom(40) == 15 && colision) {
+          if (this.getRandom(this.busquedaDeJugador) == 10 && colision) {
 
             var dMayX = this.jugador.px - this.fantasmas[cont].px;
             var dMenX = this.fantasmas[cont].px - this.jugador.px;
@@ -438,7 +440,7 @@ export class AppComponent implements OnInit {
               this.reiniciarJuego();
             }
             window.clearTimeout(idTimeOut);
-          }, 2500);
+          }, this.delayChoqueFantasma);
 
         }
         if (cont[j] == 5) {
@@ -484,7 +486,7 @@ export class AppComponent implements OnInit {
         obj.px + obj.tx > (jugador.px - (masx / 2)) &&
         obj.py < (jugador.py - (masy / 2)) + (jugador.ty + (masy)) &&
         obj.ty + obj.py > (jugador.py - (masy / 2))) {
-        if (tipoJugador) this.quieto = true;
+        if (tipoJugador && !this.muerto) this.quieto = true;
         return false;
       }
     }
@@ -648,7 +650,6 @@ export class AppComponent implements OnInit {
   }
 
   reiniciarJuego() {
-
     for (let i = 0; i < this.idIntervalFantasmaMover.length; i++) {
       window.clearInterval(this.idIntervalFantasmaMover[i]);
     }
@@ -661,7 +662,6 @@ export class AppComponent implements OnInit {
     this.inicializarJugador();
     this.inicializarPuntos();
     this.moverFantasmas(20, 25);
-
   }
 
   reiniciarVariablesJuego() {
@@ -671,5 +671,40 @@ export class AppComponent implements OnInit {
     this.canrtPuntos = this.canrtPuntosAnt;
     this.idIntervalFantasmaMover = [];
     this.idIntervalFantasmaDibujar = [];
+  }
+
+  cambiarDificultad() {
+    switch (this.dificultad) {
+      case "Facil":
+        this.busquedaDeJugador = 45;
+        this.velocidadFan = 1.8;
+        this.cantVidas = 4;
+        this.maxVidas = 6;
+        this.delayChoqueFantasma = 3000;
+        break;
+      case "Normal":
+        this.busquedaDeJugador = 40;
+        this.velocidadFan = 2;
+        this.cantVidas = 3;
+        this.maxVidas = 5;
+        this.delayChoqueFantasma = 2500;
+        break;
+      case "Dificil":
+        this.busquedaDeJugador = 30;
+        this.velocidadFan = 2.4;
+        this.cantVidas = 3;
+        this.maxVidas = 3;
+        this.delayChoqueFantasma = 1500;
+        break;
+      case "Injugable":
+        this.busquedaDeJugador = 20;
+        this.velocidadFan = 2.8;
+        this.cantVidas = 2;
+        this.maxVidas = 3;
+        this.delayChoqueFantasma = 1000;
+        break;
+    }
+
+    this.reiniciarJuego();
   }
 }
