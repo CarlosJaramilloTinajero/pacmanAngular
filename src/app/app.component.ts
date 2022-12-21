@@ -17,7 +17,9 @@ export class AppComponent implements OnInit {
 
   // Juego
   play: boolean = false;
+  configuracion: boolean = false;
   dificultad: string = "Normal";
+  pantallaChica: boolean = false;
 
   // Fantasmas
   cantFantasmas: number = 3;
@@ -57,10 +59,25 @@ export class AppComponent implements OnInit {
   abaJugador: Objeto = new Objeto();
 
   // Mapa y puntos
+  objetosAux: Objeto[] = [];
   objetos: Objeto[] = [];
   puntos: Objeto[] = [];
   canrtPuntosAnt: number = 1;
   canrtPuntos: number = this.canrtPuntosAnt;
+
+  // Crear mapa
+  habilitarCrearMapa: boolean = false;
+  objetoPorCrear: Objeto = new Objeto();
+  creando: boolean = false;
+  chocoElRatonDer: boolean = false;
+  chocoElRatonAba: boolean = false;
+  chocoElRatonArr: boolean = false;
+  chocoElRatonIzq: boolean = false;
+  pxRaton: number = 0;
+  pyRaton: number = 0;
+
+  // Botones
+  habilitarBotones: boolean = false;
 
   // Teclas y keyCode
   // a = 97
@@ -74,14 +91,22 @@ export class AppComponent implements OnInit {
       this.getKey(e.keyCode);
     };
 
-    this.anchoPantalla = document.documentElement.clientWidth;
-    this.largoPantalla = document.documentElement.clientHeight;
-    this.marginLeft = (this.anchoPantalla - this.anchoTablero) * .5;
-    this.marginTop = (this.largoPantalla - this.largoTablero) * .5;
+    if (document.documentElement.clientWidth < 600) {
+      this.anchoTablero = (document.documentElement.clientWidth - (document.documentElement.clientWidth * .1));
+      this.largoTablero = (document.documentElement.clientHeight - (document.documentElement.clientHeight * .1));
+      this.habilitarBotones = true;
+      this.pantallaChica = true;
+    }
 
+    this.inicializarPantallaYTablero();
+    // var id = setTimeout(() => {
     this.InicializarJuego();
     this.moverJugador(20, 15);
     this.moverFantasmas(20, 25);
+    this.crearMapa();
+    // window.clearTimeout(id);
+    // }, 500);
+
   }
 
 
@@ -91,6 +116,13 @@ export class AppComponent implements OnInit {
     this.inicializarJugador();
     this.inicializarMapa();
     this.inicializarPuntos()
+  }
+
+  inicializarPantallaYTablero() {
+    this.anchoPantalla = document.documentElement.clientWidth;
+    this.largoPantalla = document.documentElement.clientHeight;
+    this.marginLeft = (this.anchoPantalla - this.anchoTablero) * .5;
+    this.marginTop = (this.largoPantalla - this.largoTablero) * .5;
   }
 
   inicializarFantasmas() {
@@ -138,43 +170,44 @@ export class AppComponent implements OnInit {
   }
 
   inicializarMapa() {
+    this.objetos = [];
     this.objetos[0] = {
       id: 1,
-      px: 0 + this.marginLeft,
-      py: 0 + this.marginTop,
+      px: this.marginLeft,
+      py: this.marginTop,
       tx: this.anchoTablero,
       ty: this.largoTablero
     };
 
     this.objetos[1] = {
       id: 10,
-      px: 0 + this.marginLeft,
-      py: 505 + this.marginTop,
-      tx: 620,
+      px: this.marginLeft,
+      py: this.marginTop,
+      tx: this.anchoTablero,
       ty: 1
     };
 
     this.objetos[2] = {
       id: 10,
-      px: 605 + this.marginLeft,
-      py: 0 + this.marginTop,
+      px: (this.anchoPantalla - this.marginLeft),
+      py: this.marginTop,
       tx: 1,
-      ty: 500
+      ty: this.largoTablero
     };
 
     this.objetos[3] = {
       id: 10,
-      px: -1 + this.marginLeft,
-      py: 0 + this.marginTop,
+      px: this.marginLeft,
+      py: this.marginTop,
       tx: 1,
-      ty: 500
+      ty: this.largoTablero
     };
 
     this.objetos[4] = {
       id: 10,
-      px: 0 + this.marginLeft,
-      py: -1 + this.marginTop,
-      tx: 600,
+      px: this.marginLeft,
+      py: this.marginTop,
+      tx: this.anchoTablero,
       ty: 1
     };
 
@@ -182,33 +215,100 @@ export class AppComponent implements OnInit {
       id: 20,
       px: 0 + this.marginLeft,
       py: (this.largoTablero - 40) + this.marginTop,
-      tx: 600,
+      tx: this.anchoTablero,
+      ty: 1
+    };
+    if (this.anchoPantalla > 500) {
+
+      this.objetos[6] = {
+        id: 20,
+        px: 40 + this.marginLeft,
+        py: (this.largoTablero - 160) + this.marginTop,
+        tx: 120,
+        ty: 80
+      };
+
+      this.objetos[7] = {
+        id: 20,
+        px: (this.anchoTablero - 160) + this.marginLeft,
+        py: (this.largoTablero - 160) + this.marginTop,
+        tx: 120,
+        ty: 80
+      };
+
+      this.objetos[8] = {
+        id: 20,
+        px: (160) + this.marginLeft,
+        py: 0 + this.marginTop,
+        tx: 280,
+        ty: 80
+      };
+    }
+  }
+
+  inicializarMapa2() {
+
+    this.objetosAux[0] = {
+      id: 1,
+      px: this.marginLeft,
+      py: this.marginTop,
+      tx: this.anchoTablero,
+      ty: this.largoTablero
+    };
+
+    this.objetosAux[1] = {
+      id: 10,
+      px: this.marginLeft,
+      py: this.marginTop,
+      tx: this.anchoTablero,
       ty: 1
     };
 
-    this.objetos[6] = {
-      id: 20,
-      px: 40 + this.marginLeft,
-      py: (this.largoTablero - 160) + this.marginTop,
-      tx: 120,
-      ty: 80
+    this.objetosAux[2] = {
+      id: 10,
+      px: (this.anchoPantalla - this.marginLeft),
+      py: this.marginTop,
+      tx: 1,
+      ty: this.largoTablero
     };
 
-    this.objetos[7] = {
-      id: 20,
-      px: (this.anchoTablero - 160) + this.marginLeft,
-      py: (this.largoTablero - 160) + this.marginTop,
-      tx: 120,
-      ty: 80
+    this.objetosAux[3] = {
+      id: 10,
+      px: this.marginLeft,
+      py: this.marginTop,
+      tx: 1,
+      ty: this.largoTablero
     };
 
-    this.objetos[8] = {
-      id: 20,
-      px: (160) + this.marginLeft,
-      py: 0 + this.marginTop,
-      tx: 280,
-      ty: 80
+    this.objetosAux[4] = {
+      id: 10,
+      px: this.marginLeft,
+      py: this.marginTop,
+      tx: this.anchoTablero,
+      ty: 1
     };
+
+    this.objetosAux[5] = {
+      id: 20,
+      px: 0 + this.marginLeft,
+      py: (this.largoTablero - 40) + this.marginTop,
+      tx: this.anchoTablero,
+      ty: 1
+    };
+
+    // for (let i = 0; i < 5; i++) {
+
+    //   this.objetosAux[i] = {
+    //     id: this.objetosAux[i].id,
+    //     px: 0,
+    //     py: 0,
+    //     tx: 0,
+    //     ty: 0
+    //   }
+    // }
+
+    this.objetos = deepClone(this.objetosAux);
+    this.objetosAux = [];
   }
 
   inicializarPuntos() {
@@ -218,12 +318,107 @@ export class AppComponent implements OnInit {
   }
 
 
+  // Crear mapa
+  reiniciarMapaCreado() {
+    this.inicializarMapa();
+  }
+
+  eliminarObjetoCreado() {
+    if (this.objetos.length > 6) {
+      this.objetos.pop();
+    }
+  }
+
+  habilitarCrearMapaE() {
+    // this.inicializarPuntos()
+    if (this.habilitarCrearMapa) {
+      this.canrtPuntos = this.canrtPuntosAnt;
+      this.reiniciarJuego();
+      this.play = false;
+    } else {
+      this.reiniciarJuego();
+      this.play = true;
+      this.puntos = [];
+    }
+
+    this.habilitarCrearMapa = !this.habilitarCrearMapa;
+  }
+
+  crearMapa() {
+    window.onkeydown = (e) => {
+      console.log(e)
+      if (e.code == "KeyC") {
+        if (this.habilitarCrearMapa) {
+          if (!this.creando) {
+            var mouseObjeto: Objeto = {
+              id: 5,
+              px: this.pxRaton - 10,
+              py: this.pyRaton - 10,
+              tx: 10,
+              ty: 10
+            }
+
+            if (this.colisionPunto(this.objetos[0], mouseObjeto) && this.colision(mouseObjeto, false)) {
+              this.creando = true;
+              this.objetoPorCrear = new Objeto();
+              this.objetoPorCrear.px = this.pxRaton;
+              this.objetoPorCrear.py = this.pyRaton;
+            }
+          } else if (this.creando) {
+            this.objetos[this.objetos.length] = this.objetoPorCrear;
+            this.objetoPorCrear = new Objeto();
+            this.creando = false;
+            this.chocoElRatonAba = false;
+            this.chocoElRatonDer = false;
+            this.chocoElRatonArr = false;
+            this.chocoElRatonIzq = false;
+          }
+        }
+      }
+    };
+
+    window.onmousemove = (e) => {
+      if (this.habilitarCrearMapa) {
+        if (this.creando) {
+
+          var mouseObjetoDer: Objeto = {
+            id: 5,
+            px: this.objetoPorCrear.px,
+            py: this.objetoPorCrear.py,
+            tx: this.objetoPorCrear.tx + 10,
+            ty: this.objetoPorCrear.ty
+          }
+
+          var mouseObjetoAba: Objeto = {
+            id: 5,
+            px: this.objetoPorCrear.px,
+            py: this.objetoPorCrear.py,
+            tx: this.objetoPorCrear.tx,
+            ty: this.objetoPorCrear.ty + 10
+          }
+
+          if (!this.chocoElRatonDer && !this.colision(mouseObjetoDer, false)) { this.chocoElRatonDer = true; }
+          if (!this.chocoElRatonAba && !this.colision(mouseObjetoAba, false)) { this.chocoElRatonAba = true; }
+
+          if (this.colision(mouseObjetoDer, false)) { this.objetoPorCrear.tx = (e.clientX - this.objetoPorCrear.px); }
+          if (this.colision(mouseObjetoAba, false)) { this.objetoPorCrear.ty = (e.clientY - this.objetoPorCrear.py); }
+        } else {
+          this.pxRaton = e.clientX;
+          this.pyRaton = e.clientY;
+        }
+      }
+    };
+
+  }
+
+
+
   // Mover y dibujar
   moverJugador(delayMover: number, delayDibujar: number) {
     this.dibujarJugador(delayDibujar);
     // this.colisionPuntos();
     var idInterva = setInterval(() => {
-      if (this.play) {
+      if (this.play && !this.habilitarCrearMapa) {
         this.lados();
         switch (this.mover) {
           case "izq":
@@ -258,6 +453,9 @@ export class AppComponent implements OnInit {
   dibujarJugador(delayDibujar: number) {
     var cont = 0;
     var idInterval = setInterval(() => {
+      // if (this.habilitarCrearMapa) {
+      //   this.img = -1;
+      // } else
       if (this.quieto || this.muerto) {
         this.img = 2;
       } else {
@@ -288,7 +486,7 @@ export class AppComponent implements OnInit {
 
     for (let cont = 0; cont < this.fantasmas.length; cont++) {
       var idInterval = setInterval(() => {
-        if (this.play) {
+        if (this.play && !this.habilitarCrearMapa) {
           colision = this.colision(this.fantasmas[cont], false);
 
           // Mover el fantasma hacia el jugador
@@ -443,7 +641,9 @@ export class AppComponent implements OnInit {
           }, this.delayChoqueFantasma);
 
         }
-        if (cont[j] == 5) {
+        if (this.habilitarCrearMapa) {
+          this.imgFants[j] = -1;
+        } else if (cont[j] == 5) {
           if (this.imgFants[j] == this.maxS[j]) {
             this.imgFants[j] = this.minS[j];
           } else {
@@ -464,11 +664,13 @@ export class AppComponent implements OnInit {
 
   // Colisiones
   colisionFantasma(fantasma: Objeto): boolean {
-    if (this.jugador.id != 1 && this.jugador.px < (fantasma.px) + (fantasma.tx) &&
-      this.jugador.px + this.jugador.tx > (fantasma.px) &&
-      this.jugador.py < (fantasma.py) + (fantasma.ty) &&
-      this.jugador.ty + this.jugador.py > (fantasma.py)) {
-      return false;
+    if (this.play) {
+      if (this.jugador.id != 1 && this.jugador.px < (fantasma.px) + (fantasma.tx) &&
+        this.jugador.px + this.jugador.tx > (fantasma.px) &&
+        this.jugador.py < (fantasma.py) + (fantasma.ty) &&
+        this.jugador.ty + this.jugador.py > (fantasma.py)) {
+        return false;
+      }
     }
     return true;
   }
@@ -597,7 +799,7 @@ export class AppComponent implements OnInit {
   getKey(key: number) {
     switch (key) {
       case 97:
-        if (!this.muerto) {
+        if (!this.muerto && !this.habilitarCrearMapa && !this.configuracion) {
           this.mover = "izq";
           this.ladoDeg = 180;
           this.ponerPlay();
@@ -606,7 +808,7 @@ export class AppComponent implements OnInit {
         break;
 
       case 119:
-        if (!this.muerto) {
+        if (!this.muerto && !this.habilitarCrearMapa && !this.configuracion) {
           this.mover = "arr";
           this.ladoDeg = 270;
           this.ponerPlay();
@@ -615,7 +817,7 @@ export class AppComponent implements OnInit {
         break;
 
       case 100:
-        if (!this.muerto) {
+        if (!this.muerto && !this.habilitarCrearMapa && !this.configuracion) {
           this.mover = "der";
           this.ladoDeg = 0;
           this.ponerPlay();
@@ -624,7 +826,7 @@ export class AppComponent implements OnInit {
         break;
 
       case 115:
-        if (!this.muerto) {
+        if (!this.muerto && !this.habilitarCrearMapa && !this.configuracion) {
           this.mover = "aba";
           this.ladoDeg = 90;
           this.ponerPlay();
@@ -638,7 +840,7 @@ export class AppComponent implements OnInit {
   }
 
   ponerPlay() {
-    if (!this.play) {
+    if (!this.play && !this.configuracion) {
       this.play = true;
     }
   }
@@ -707,4 +909,20 @@ export class AppComponent implements OnInit {
 
     this.reiniciarJuego();
   }
+
+  cambiarTamanioTablero() {
+    // this.objetosAux = deepClone(this.objetos);
+    this.objetos = [];
+    this.inicializarPantallaYTablero();
+    // this.InicializarJuego();
+    this.inicializarMapa();
+    this.inicializarJugador();
+    this.creando = false;
+    this.habilitarCrearMapa = true;
+  }
+}
+
+
+function deepClone<Objeto>(obj: Objeto): Objeto {
+  return JSON.parse(JSON.stringify(obj)) as Objeto;
 }

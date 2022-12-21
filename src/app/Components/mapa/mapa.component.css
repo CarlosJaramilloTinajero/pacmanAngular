@@ -1,11 +1,19 @@
 .objeto {
     position: absolute;
+    z-index: -99;
     /* background-color: white; */
     border-radius: 5px;
     border: 2px rgb(22, 60, 184, 0.9) solid;
     -webkit-box-shadow: 0px 0px 12px 2px rgba(22, 60, 184, 0.8);
     -moz-box-shadow: 0px 0px 12px 2px rgba(22, 60, 184, 0.8);
     box-shadow: 0px 0px 12px 2px rgba(22, 60, 184, 0.8);
+}
+
+.tablero {
+    overflow: hidden;
+    position: absolute;
+    z-index: -98;
+    border-radius: 5px;
 }
 
 .sombraAdentro {

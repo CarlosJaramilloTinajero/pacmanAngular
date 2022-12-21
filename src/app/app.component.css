@@ -4,6 +4,171 @@
     position: absolute;
 }
 
+.crearMapa {
+    z-index: -100;
+}
+
+.hidden {
+    opacity: 0;
+    z-index: -100;
+}
+
+.show {
+    opacity: 1;
+    z-index: 100;
+}
+
+.btnJugar {
+    border: none;
+    border-bottom: 2px rgb(10, 196, 10) solid;
+    margin-right: 40px;
+}
+
+.btnJugar span {
+    margin: 0 10px 0 10px;
+    color: rgb(10, 196, 10);
+    font-size: 25px;
+    text-shadow: rgb(10, 196, 10) 1px 0px 35px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+}
+
+.btnConfuguracion {
+    border: none;
+    border-bottom: 2px rgb(10, 53, 196) solid;
+}
+
+.btnConfuguracion span {
+    color: rgb(10, 53, 196);
+    font-size: 25px;
+    text-shadow: rgb(10, 53, 196) 1px 0px 35px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+}
+
+.btnPause {
+    width: max-content;
+    background-color: unset;
+    border-radius: 10px;
+    padding: 5px;
+    padding-left: 14px;
+    padding-right: 14px;
+    transition: all .3s ease-in-out;
+}
+
+.btnPause:hover {
+    opacity: .8;
+    scale: .97;
+}
+
+.divBtonesPausa {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.inputs {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: block;
+}
+
+.inputDiv {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.inputDiv label {
+    color: white;
+    font-weight: 600;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
+    margin-right: 10px;
+    margin-top: 10px;
+
+}
+
+.inputDiv input[type="number"] {
+    background-color: unset;
+    border: none;
+    border-bottom: 2px rgba(255, 255, 255, 0.9) solid;
+    color: white;
+    border-radius: 9px;
+    padding: 7px;
+    width: 80px;
+}
+
+.botones {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
+.boton {
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    font-size: 19px;
+    background-color: unset;
+    font-weight: 700;
+    transition: all .3s ease-in-out;
+    margin-left: 15px;
+}
+
+.colorAzul {
+    text-shadow: 0 0 20px rgba(10, 53, 196, 0.9);
+    color: rgb(10, 53, 196);
+    border-bottom: 2px rgb(10, 53, 196) solid;
+}
+
+.colorRojo {
+    text-shadow: 0 0 20px rgba(196, 10, 10, 0.9);
+    color: rgb(196, 10, 10);
+    border-bottom: 2px rgb(196, 10, 10) solid;
+}
+
+.colorBlanco {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
+    color: rgb(255, 255, 255);
+    border-bottom: 2px rgb(255, 255, 255) solid;
+}
+
+.boton:hover {
+    scale: .95;
+    opacity: .7;
+}
+
+
+.objeto {
+    position: absolute;
+    /* background-color: white; */
+    border-radius: 5px;
+    border: 2px rgb(22, 60, 184, 0.9) solid;
+    -webkit-box-shadow: 0px 0px 12px 2px rgba(22, 60, 184, 0.8);
+    -moz-box-shadow: 0px 0px 12px 2px rgba(22, 60, 184, 0.8);
+    box-shadow: 0px 0px 12px 2px rgba(22, 60, 184, 0.8);
+}
+
+.sombraAdentro {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-box-shadow: inset 0px 0px 8px 0px rgba(22, 60, 184, 0.8);
+    -moz-box-shadow: inset 0px 0px 8px 0px rgba(22, 60, 184, 0.8);
+    box-shadow: inset 0px 0px 8px 0px rgba(22, 60, 184, 0.8);
+}
+
+.hidden {
+    opacity: 0;
+}
+
 .fantasmas {
     position: absolute;
 }
@@ -13,11 +178,101 @@
     height: 100%;
 }
 
-.nivel {
-    position: absolute;
+.botonJuego {
+    background-color: unset;
+    border: none;
+    font-size: 20px;
+    font-weight: 600;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: white;
+    text-shadow: 0 0 20px rgb(255, 255, 255), 0 0 20px rgb(255, 255, 255);
+    box-shadow: inset 0px 0px 30px 1px rgba(10, 53, 196, 0.438);
+    transition: all .5s ease-in-out;
+    opacity: .5;
+    scale: .97;
 }
 
-.nivel p {
+.botonJuego:focus {
+    scale: 1;
+    opacity: 1;
+}
+
+.botonJuegoPause {
+    opacity: 1;
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    width: max-content;
+    text-shadow: 0 0 10px rgb(255, 255, 255);
+    box-shadow: inset 0px 0px 8px 2px rgba(196, 10, 10, 0.438);
+    font-size: 25px;
+    padding: 5px;
+    padding-left: 12px;
+    padding-right: 12px;
+
+    border-bottom: 2px rgb(196, 10, 10) solid;
+    border-radius: 10px;
+}
+
+.botonJuegoIzq {
+    position: absolute;
+    left: 1px;
+    top: 50%;
+    height: 50vh;
+    width: 70px;
+    transform: translate(0, -50%);
+
+    border-left: 3px rgb(10, 53, 196) solid;
+    border-top: 2px rgb(10, 53, 196) solid;
+    border-bottom: 2px rgb(10, 53, 196) solid;
+    border-radius: 15px;
+
+}
+
+.botonJuegoDer {
+    position: absolute;
+    right: 1px;
+    top: 50%;
+    height: 50vh;
+    width: 70px;
+    transform: translate(0, -50%);
+
+    border-right: 3px rgb(10, 53, 196) solid;
+    border-top: 2px rgb(10, 53, 196) solid;
+    border-bottom: 2px rgb(10, 53, 196) solid;
+    border-radius: 15px;
+}
+
+.botonJuegoAba {
+    position: absolute;
+    left: 50%;
+    bottom: 1px;
+    height: 70px;
+    width: 50vw;
+    transform: translate(-50%, 0);
+
+    border-bottom: 3px rgb(10, 53, 196) solid;
+    border-right: 2px rgb(10, 53, 196) solid;
+    border-left: 2px rgb(10, 53, 196) solid;
+    border-radius: 15px;
+}
+
+.botonJuegoArr {
+    position: absolute;
+    left: 50%;
+    top: 1px;
+    height: 70px;
+    width: 50vw;
+    transform: translate(-50%, 0);
+
+    border-top: 3px rgb(10, 53, 196) solid;
+    border-right: 2px rgb(10, 53, 196) solid;
+    border-left: 2px rgb(10, 53, 196) solid;
+    border-radius: 15px;
+}
+
+.nivel {
+    position: absolute;
     text-shadow: rgb(10, 53, 196) 1px 0px 10px;
     color: rgb(62, 91, 189);
     font-size: 20px;
@@ -131,6 +386,7 @@ hr {
     border-radius: 4px;
     padding: 3px;
     border: none;
+    cursor: pointer;
 }
 
 .selectA option {
@@ -139,6 +395,10 @@ hr {
 
 .inputDiv {
     display: flex;
+}
+
+.inputDiv input[Type="checkbox"]{
+    cursor: pointer;
 }
 
 .animacionOpacidad {

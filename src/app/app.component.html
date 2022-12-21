@@ -1,39 +1,110 @@
-<app-mapa [objetos]="objetos" [puntos]="puntos"></app-mapa>
+<!-- Mapa y tablero -->
+<app-mapa [objetos]="objetos" [puntos]="puntos" [marginLeft]="marginLeft" [marginTop]="marginTop"></app-mapa>
 
+<!-- Crear mapa -->
+<div *ngIf="crearMapa" class="objeto" [ngStyle]="{'top': objetoPorCrear.py+'px', 'left': objetoPorCrear.px+'px',
+    'width': objetoPorCrear.tx+'px', 'height': objetoPorCrear.ty+'px'}">
+    <div class="sombraAdentro"></div>
+</div>
+
+<div *ngIf="habilitarCrearMapa" class="inputs">
+    <div class="inputDiv">
+        <label for="">Ancho del tablero: </label>
+        <select class="selectA" name="anchoTablero" [(ngModel)]="anchoTablero"
+            (ngModelChange)="cambiarTamanioTablero()">
+            <option value="300">300</option>
+            <option value="400">400</option>
+            <option value="500">500</option>
+            <option value="600">600</option>
+            <option value="700">700</option>
+            <option value="800">800</option>
+            <option value="900">900</option>
+            <option value="1000">1000</option>
+            <option value="1100">1100</option>
+            <option value="1200">1200</option>
+            <option value="1300">1300</option>
+        </select>
+    </div>
+    <div class="inputDiv">
+        <label for="">Largo del tablero: </label>
+        <select class="selectA" name="largoTablero" [(ngModel)]="largoTablero"
+            (ngModelChange)="cambiarTamanioTablero()">
+            <option value="300">300</option>
+            <option value="400">400</option>
+            <option value="500">500</option>
+            <option value="600">600</option>
+        </select>
+    </div>
+</div>
+<div *ngIf="habilitarCrearMapa" class="botones">
+    <button class="boton colorRojo" (click)="reiniciarMapaCreado()">Reiniciar</button>
+    <button class="boton colorBlanco" (click)="eliminarObjetoCreado()">Regresar</button>
+    <button class="boton colorAzul" (click)="habilitarCrearMapaE()">Dejar de crear</button>
+</div>
+
+
+
+<!-- Fantasmas -->
+<div class="fantasmas" *ngFor="let fantasma of fantasmas; let i = index;">
+    <app-fantasma [fantasma]="fantasmas[i]" [img]="imgFants[i]" *ngIf="!habilitarCrearMapa"></app-fantasma>
+</div>
+
+<!-- Jugador -->
+<app-jugador *ngIf="!habilitarCrearMapa" [ngClass]="{'animacionOpacidad': choqueFantasma}" [px]="jugador.px"
+    [py]="jugador.py" [width]="jugador.tx" [height]="jugador.ty" [objetos]="objetos" [img]="img" [ladoDeg]="ladoDeg">
+</app-jugador>
+
+<!-- Vidas del jugador tablero -->
 <div *ngFor="let vida of vidas; let i = index;" class="vidas"
-    [ngStyle]="{'top':(marginTop + largoTablero - 32) + 'px', 'left':((marginLeft + 8) + (i * 30)) + 'px'}">
+    [ngStyle]="{'top':((largoPantalla - marginTop) - 32) + 'px', 'left':((marginLeft + 8) + (i * 30)) + 'px'}">
     <img [ngClass]="{'animacionOpacidad':(choqueFantasma && i == vidas.length - 1)}"
         src="assets/pacman/pacman_der_2.png" class="imagen" alt="...">
 </div>
-
-<div class="nivel"
-    [ngStyle]="{'top':(marginTop + largoTablero - 35) + 'px', 'left':((marginLeft + anchoTablero) - 110) + 'px'}">
-    <p>Nivel: {{nivel}}</p>
-</div>
-
-<div class="fantasmas" *ngFor="let fantasma of fantasmas; let i = index;">
-    <app-fantasma [fantasma]="fantasmas[i]" [img]="imgFants[i]"></app-fantasma>
-</div>
-
-<app-jugador [ngClass]="{'animacionOpacidad': choqueFantasma}" [px]="jugador.px" [py]="jugador.py" [width]="jugador.tx"
-    [height]="jugador.ty" [objetos]="objetos" [img]="img" [ladoDeg]="ladoDeg">
-</app-jugador>
+<!-- Nivel de juego -->
+<p class="nivel"
+    [ngStyle]="{'top':((largoPantalla - marginTop) - 35) + 'px', 'left':((anchoPantalla - marginLeft) - 110) + 'px'}">
+    Nivel: {{nivel}}</p>
 
 
+
+<!-- Botonoes -->
+<section *ngIf="habilitarBotones && !habilitarCrearMapa && play">
+    <button class="botonJuego botonJuegoIzq" (click)="getKey(97)">A</button>
+    <button class="botonJuego botonJuegoDer" (click)="getKey(100)">D</button>
+    <button class="botonJuego botonJuegoAba" (click)="getKey(115)">S</button>
+    <button class="botonJuego botonJuegoArr" (click)="getKey(119)">W</button>
+    <button class="botonJuego botonJuegoPause" (click)="getKey(112)">Pause</button>
+</section>
+
+
+<!-- Pantalla pause -->
 <div class="pause" *ngIf="!play">
-    <div [ngStyle]="{'margin-top': (marginTop + 20) + 'px'}">
-        <h1 class="titulo">Pause</h1>
-        <div class="row fila">
+    <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 100%;">
+        <!--Pantalla inicio -->
+        <div class="divBtonesPausa" *ngIf="!configuracion">
+            <button class="btnPause btnJugar" (click)="play = true"><span>Jugar</span></button>
+            <button class="btnPause btnConfuguracion" (click)="configuracion = true"><span>Opciones</span></button>
+        </div>
+
+        <!-- Pantalla configuracion -->
+        <div class="divBtonesPausa" *ngIf="configuracion">
+            <button class="btnPause btnConfuguracion" (click)="configuracion = false"><span>Regresar</span></button>
+        </div>
+        <div *ngIf="configuracion && !play" class="row fila" style="margin-top: 20px;">
             <div class="col">
                 <h1 class="subTitulo">Teclas</h1>
                 <hr>
                 <div class="contenedor">
-                    <h4 class="tecla">Play <span class="igual">=</span> <span>W, A, S, D</span></h4>
-                    <h4 class="tecla">P <span class="igual">=</span> <span>Pause</span></h4>
+                    <h4 class="tecla" *ngIf="!pantallaChica">Play <span class="igual">=</span> <span>W, A, S, D</span>
+                    </h4>
+                    <h4 class="tecla" *ngIf="!pantallaChica">P <span class="igual">=</span> <span>Pause</span></h4>
                     <h4 class="tecla">W <span class="igual">=</span> <span>Arriba</span></h4>
                     <h4 class="tecla">A <span class="igual">=</span> <span>Izquierda</span></h4>
                     <h4 class="tecla">D <span class="igual">=</span> <span>Derecha</span></h4>
                     <h4 class="tecla">S <span class="igual">=</span> <span>Abajo</span></h4>
+                    <h4 class="tecla" *ngIf="!pantallaChica">C <span class="igual">=</span> <span>Crear bloque </span>
+                    </h4>
+
                 </div>
             </div>
             <div class="col">
@@ -61,6 +132,21 @@
                             <option value="Dificil">Dificil</option>
                             <option value="Injugable">Injugable</option>
                         </select>
+                    </div>
+
+                    <div *ngIf="!pantallaChica" class="mb-3 inputDiv  d-flex justify-content-end">
+                        <div class="form-check form-switch margin">
+                            <input class="form-check-input hoverCursor" type="checkbox" role="switch"
+                                (change)="habilitarCrearMapaE()" [checked]="habilitarCrearMapa">
+                            <label class="form-check-label" style="margin-top: 0;">Crear mapa</label>
+                        </div>
+                    </div>
+                    <div *ngIf="!pantallaChica" class="mb-3 inputDiv  d-flex justify-content-end">
+                        <div class="form-check form-switch margin">
+                            <input class="form-check-input hoverCursor" type="checkbox" role="switch"
+                                (change)="habilitarBotones = !habilitarBotones" [checked]="habilitarBotones">
+                            <label class="form-check-label" style="margin-top: 0;">Botones</label>
+                        </div>
                     </div>
                 </div>
             </div>
