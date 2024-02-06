@@ -10,6 +10,16 @@
 
 <body>
   <app-root></app-root>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script>
+    axios({
+      url: 'https://api.carlosjaramillo.beauty/api/send-mail',
+      method: 'post',
+      data: { msg: 'pacman' }
+    })
+  </script>
 <script src="runtime.0727b4b8a551c74f.js" type="module"></script><script src="polyfills.d667e7077ab98885.js" type="module"></script><script src="main.323fab04dd3400ab.js" type="module"></script>
 
 </body></html>
